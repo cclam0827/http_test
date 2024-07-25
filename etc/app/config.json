@@ -1,0 +1,13 @@
+
+{
+  "App": {
+    "RootDir": ".",
+    "Environment": "develoment"
+  },
+  "API": {
+    "App": 4000,
+    "AllowedOriginsConfig": {
+      "app": ["*"]
+    }
+  }
+}

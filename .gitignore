@@ -14,6 +14,16 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# mac files
+.DS_Store
+
+# webstorm
+.idea
+
+# vscode
+.vscode
+*code-workspace
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
