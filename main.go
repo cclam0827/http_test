@@ -7,6 +7,7 @@ import (
 
 	"http_test/apis"
 	_ "http_test/core/config"
+	_ "http_test/docs"
 
 	"github.com/urfave/cli/v2"
 )

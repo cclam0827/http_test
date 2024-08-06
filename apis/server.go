@@ -9,6 +9,8 @@ import (
 	mid "http_test/core/api/middlewares"
 	"http_test/core/config"
 
+	docs "http_test/docs"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/sync/errgroup"
@@ -50,6 +52,8 @@ func (s *Server) StartAPI() {
 	appApi.WithRouter(appServer)
 
 	g.Go(func() error {
+		docs.SwaggerInfo.BasePath = "/"
+		docs.SwaggerInfo.Host = fmt.Sprintf("%s:%d", "localhost", s.apiConfig.App)
 		return appServer.Run(fmt.Sprintf("0.0.0.0:%d", s.apiConfig.App))
 	})
 

@@ -1,0 +1,56 @@
+definitions:
+  controllers.Response:
+    properties:
+      body: {}
+      form:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      headers:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      message:
+        type: string
+      method:
+        type: string
+      params:
+        additionalProperties:
+          type: string
+        type: object
+      path:
+        type: string
+      query:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      server_hostname:
+        type: string
+      uri:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Returns server information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Response'
+      summary: show server information
+      tags:
+      - default
+swagger: "2.0"
