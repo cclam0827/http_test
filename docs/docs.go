@@ -17,6 +17,29 @@ const docTemplate = `{
     "paths": {
         "/": {
             "get": {
+                "description": "Returns server information and request details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "default"
+                ],
+                "summary": "show server information",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.RequestResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/info": {
+            "get": {
                 "description": "Returns server information",
                 "consumes": [
                     "application/json"
@@ -32,7 +55,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.Response"
+                            "$ref": "#/definitions/controllers.InfoResponse"
                         }
                     }
                 }
@@ -40,7 +63,18 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "controllers.Response": {
+        "controllers.InfoResponse": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.RequestResponse": {
             "type": "object",
             "properties": {
                 "body": {},

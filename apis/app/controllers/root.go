@@ -11,7 +11,7 @@ type RootController struct {
 	hostname string
 }
 
-type Response struct {
+type RequestResponse struct {
 	Message        string              `json:"message"`
 	ServerHostname string              `json:"server_hostname"`
 	Method         string              `json:"method"`
@@ -27,14 +27,14 @@ type Response struct {
 // Default godoc
 // @Summary show server information
 // @Schemes
-// @Description Returns server information
+// @Description Returns server information and request details
 // @Tags default
 // @Accept json
 // @Produce json
-// @Success 200 {object} Response
+// @Success 200 {object} RequestResponse
 // @Router / [get]
 func (ctr *RootController) Root(c *gin.Context) {
-	response := &Response{
+	response := &RequestResponse{
 		Message:        "Welcome to the HTTP TEST API",
 		ServerHostname: ctr.hostname,
 		Method:         c.Request.Method,
@@ -47,6 +47,27 @@ func (ctr *RootController) Root(c *gin.Context) {
 		Form:           c.Request.Form,
 	}
 	c.IndentedJSON(http.StatusOK, response)
+}
+
+type InfoResponse struct {
+	Message  string `json:"message"`
+	Hostname string `json:"hostname"`
+}
+
+// Default godoc
+// @Summary show server information
+// @Schemes
+// @Description Returns server information
+// @Tags default
+// @Accept json
+// @Produce json
+// @Success 200 {object} InfoResponse
+// @Router /info [get]
+func (ctr *RootController) Info(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, gin.H{
+		"message":  "Welcome to the HTTP TEST API",
+		"hostname": ctr.hostname,
+	})
 }
 
 func GetRootController() *RootController {

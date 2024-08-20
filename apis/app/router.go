@@ -32,4 +32,8 @@ func rootGroup(r *gin.RouterGroup) {
 	r.PUT("/", statusCtrl.Root)
 	r.POST("/", statusCtrl.Root)
 	r.DELETE("/", statusCtrl.Root)
+	r.GET("/info", statusCtrl.Info)
+	r.PUT("/info", statusCtrl.Info)
+	r.POST("/info", statusCtrl.Info)
+	r.DELETE("/info", statusCtrl.Info)
 }

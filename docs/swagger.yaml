@@ -1,5 +1,12 @@
 definitions:
-  controllers.Response:
+  controllers.InfoResponse:
+    properties:
+      hostname:
+        type: string
+      message:
+        type: string
+    type: object
+  controllers.RequestResponse:
     properties:
       body: {}
       form:
@@ -42,6 +49,21 @@ paths:
     get:
       consumes:
       - application/json
+      description: Returns server information and request details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.RequestResponse'
+      summary: show server information
+      tags:
+      - default
+  /info:
+    get:
+      consumes:
+      - application/json
       description: Returns server information
       produces:
       - application/json
@@ -49,7 +71,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controllers.Response'
+            $ref: '#/definitions/controllers.InfoResponse'
       summary: show server information
       tags:
       - default
