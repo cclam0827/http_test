@@ -3,6 +3,7 @@ package controllers
 import (
 	"http_test/core/config"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +23,7 @@ type RequestResponse struct {
 	Query          map[string][]string `json:"query"`
 	Params         map[string]string   `json:"params"`
 	Form           map[string][]string `json:"form"`
+	CurrentTime    time.Time           `json:"current_time"`
 }
 
 // Default godoc
@@ -45,6 +47,7 @@ func (ctr *RootController) Root(c *gin.Context) {
 		Query:          c.Request.URL.Query(),
 		Params:         map[string]string{},
 		Form:           c.Request.Form,
+		CurrentTime:    time.Now(), // Add current time field
 	}
 	c.IndentedJSON(http.StatusOK, response)
 }

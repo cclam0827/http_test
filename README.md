@@ -10,7 +10,7 @@ lightweight http request testing
 
 run on local
 
-```
+```bash
 go run main.go start
 ```
 

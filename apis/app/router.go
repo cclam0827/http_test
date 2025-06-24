@@ -15,6 +15,7 @@ func WithRouter(r *gin.Engine) {
 	grp := r.Group("")
 
 	rootGroup(grp)
+	r.NoRoute(ctrls.GetRootController().Root)
 }
 
 func rootGroup(r *gin.RouterGroup) {
@@ -28,10 +29,6 @@ func rootGroup(r *gin.RouterGroup) {
 	))
 
 	statusCtrl := ctrls.GetRootController()
-	r.GET("/", statusCtrl.Root)
-	r.PUT("/", statusCtrl.Root)
-	r.POST("/", statusCtrl.Root)
-	r.DELETE("/", statusCtrl.Root)
 	r.GET("/info", statusCtrl.Info)
 	r.PUT("/info", statusCtrl.Info)
 	r.POST("/info", statusCtrl.Info)
