@@ -26,15 +26,6 @@ type RequestResponse struct {
 	CurrentTime    time.Time           `json:"current_time"`
 }
 
-// Default godoc
-// @Summary show server information
-// @Schemes
-// @Description Returns server information and request details
-// @Tags default
-// @Accept json
-// @Produce json
-// @Success 200 {object} RequestResponse
-// @Router / [get]
 func (ctr *RootController) Root(c *gin.Context) {
 	response := &RequestResponse{
 		Message:        "Welcome to the HTTP TEST API",
@@ -57,15 +48,6 @@ type InfoResponse struct {
 	Hostname string `json:"hostname"`
 }
 
-// Default godoc
-// @Summary show server information
-// @Schemes
-// @Description Returns server information
-// @Tags default
-// @Accept json
-// @Produce json
-// @Success 200 {object} InfoResponse
-// @Router /info [get]
 func (ctr *RootController) Info(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{
 		"message":  "Welcome to the HTTP TEST API",
