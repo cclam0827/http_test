@@ -29,7 +29,7 @@ type RequestResponse struct {
 	Method         string              `json:"method"`
 	Path           string              `json:"path"`
 	URI            string              `json:"uri"`
-	Headers        map[string][]string `json:"headers"`
+	Headers        map[string]string   `json:"headers"`
 	Body           any                 `json:"body"`
 	BodyTruncated  bool                `json:"body_truncated,omitempty"`
 	Query          map[string][]string `json:"query"`
@@ -56,7 +56,7 @@ func (ctr *RootController) Root(c *gin.Context) {
 		Method:         c.Request.Method,
 		Path:           c.Request.URL.Path,
 		URI:            c.Request.RequestURI,
-		Headers:        c.Request.Header,
+		Headers:        echoHeaders(c.Request),
 		Body:           echoBody(mt, raw),
 		BodyTruncated:  truncated,
 		Query:          c.Request.URL.Query(),
@@ -72,6 +72,21 @@ func (ctr *RootController) Info(c *gin.Context) {
 		"message":  "Welcome to the HTTP TEST API",
 		"hostname": ctr.hostname,
 	})
+}
+
+// echoHeaders returns the request headers as httpbin shows them: one string per
+// name, with a header sent more than once joined by ", " (the standard way to
+// combine repeated fields). Go keeps Host in Request.Host and not in
+// Request.Header, so it is added back; it is left out when the request has none.
+func echoHeaders(r *http.Request) map[string]string {
+	out := make(map[string]string, len(r.Header)+1)
+	for name, values := range r.Header {
+		out[name] = strings.Join(values, ", ")
+	}
+	if r.Host != "" {
+		out["Host"] = r.Host
+	}
+	return out
 }
 
 // readBody reads at most maxEchoBodyBytes of the request body.

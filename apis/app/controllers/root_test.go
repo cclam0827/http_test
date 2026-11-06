@@ -61,11 +61,51 @@ func TestRootEchoesRequest(t *testing.T) {
 	if q := got.Query["x"]; len(q) != 2 || q[0] != "1" || q[1] != "2" {
 		t.Errorf("query = %v", got.Query)
 	}
-	if h := got.Headers["X-Test"]; len(h) != 1 || h[0] != "v" {
+	if got.Headers["X-Test"] != "v" {
 		t.Errorf("headers = %v", got.Headers)
 	}
 	if got.CurrentTime.IsZero() {
 		t.Error("current_time is missing")
+	}
+}
+
+func TestRootHeaders(t *testing.T) {
+	tests := []struct {
+		name string
+		host string
+		add  [][2]string // name, value; a repeated name is sent as a repeated header
+		want map[string]any
+	}{
+		{"a single value is a string", "echo.test", [][2]string{{"X-Single", "one"}},
+			map[string]any{"Host": "echo.test", "X-Single": "one"}},
+		{"a repeated header is joined with a comma", "echo.test", [][2]string{{"X-Multi", "a"}, {"X-Multi", "b"}},
+			map[string]any{"Host": "echo.test", "X-Multi": "a, b"}},
+		{"Host comes from the request, not the header map", "echo.test:8080", nil,
+			map[string]any{"Host": "echo.test:8080"}},
+		{"no Host is not invented", "", [][2]string{{"X-Single", "one"}},
+			map[string]any{"X-Single": "one"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			req := httptest.NewRequest(http.MethodGet, "/h", nil)
+			req.Host = tt.host
+			for _, kv := range tt.add {
+				req.Header.Add(kv[0], kv[1])
+			}
+			rec := httptest.NewRecorder()
+			newEngine().ServeHTTP(rec, req)
+
+			// Decode into any so the test checks the JSON on the wire, not the Go type.
+			var got struct {
+				Headers map[string]any `json:"headers"`
+			}
+			if err := json.Unmarshal(rec.Body.Bytes(), &got); err != nil {
+				t.Fatal(err)
+			}
+			if gj, wj := mustJSON(t, got.Headers), mustJSON(t, tt.want); gj != wj {
+				t.Errorf("headers = %s, want %s", gj, wj)
+			}
+		})
 	}
 }
 
