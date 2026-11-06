@@ -19,7 +19,7 @@ type RequestResponse struct {
 	Path           string              `json:"path"`
 	URI            string              `json:"uri"`
 	Headers        map[string][]string `json:"headers"`
-	Body           interface{}         `json:"body"`
+	Body           any                 `json:"body"`
 	Query          map[string][]string `json:"query"`
 	Params         map[string]string   `json:"params"`
 	Form           map[string][]string `json:"form"`
