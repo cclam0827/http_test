@@ -5,7 +5,6 @@ go 1.27.3
 require (
 	github.com/gin-contrib/cors v1.7.10
 	github.com/gin-gonic/gin v1.12.0
-	github.com/sirupsen/logrus v1.10.2
 	github.com/urfave/cli/v2 v2.27.7
 	golang.org/x/sync v0.24.0
 )

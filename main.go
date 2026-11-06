@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"log/slog"
 	"os"
 
 	"http_test/apis"
-	_ "http_test/core/config"
+	"http_test/core/config"
+	"http_test/core/logger"
 
 	"github.com/urfave/cli/v2"
 )
@@ -24,13 +24,14 @@ func main() {
 			},
 		},
 	}
-	err := app.Run(os.Args)
-	if err != nil {
-		log.Fatal(err)
+	if err := app.Run(os.Args); err != nil {
+		slog.Error("fatal", "error", err)
+		os.Exit(1)
 	}
 }
 
 func start() {
-	fmt.Println("Starting the server....")
+	cfg := config.GetConfig()
+	logger.Setup(cfg.App.LogFormat, cfg.App.LogLevel, cfg.App.Environment)
 	apis.NewServer().StartAPI()
 }

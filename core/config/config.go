@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 var (
@@ -20,6 +21,10 @@ type Config struct {
 type AppConfig struct {
 	RootDir     string
 	Environment string
+	// LogFormat is json, text or color. Empty means json in production, text otherwise.
+	LogFormat string
+	// LogLevel is info or debug. Empty means info.
+	LogLevel string
 }
 
 type AllowedOriginsConfig struct {
@@ -97,6 +102,12 @@ func loadFromEnv(config *Config) {
 	})
 	ifExist("APP_ENV", func(v string) {
 		config.App.Environment = v
+	})
+	ifExist("LOG_FORMAT", func(v string) {
+		config.App.LogFormat = strings.ToLower(v)
+	})
+	ifExist("LOG_LEVEL", func(v string) {
+		config.App.LogLevel = strings.ToLower(v)
 	})
 
 	// API setting
