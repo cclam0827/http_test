@@ -2,21 +2,19 @@ package router
 
 import (
 	ctrls "http_test/apis/app/controllers"
+	"http_test/core/config"
 
 	"github.com/gin-gonic/gin"
 )
 
 func WithRouter(r *gin.Engine) {
-	grp := r.Group("")
+	ctrl := ctrls.NewRootController(config.GetConfig().ServerInfo.Hostname)
 
-	rootGroup(grp)
-	r.NoRoute(ctrls.GetRootController().Root)
-}
+	r.GET("/info", ctrl.Info)
+	r.PUT("/info", ctrl.Info)
+	r.POST("/info", ctrl.Info)
+	r.DELETE("/info", ctrl.Info)
 
-func rootGroup(r *gin.RouterGroup) {
-	statusCtrl := ctrls.GetRootController()
-	r.GET("/info", statusCtrl.Info)
-	r.PUT("/info", statusCtrl.Info)
-	r.POST("/info", statusCtrl.Info)
-	r.DELETE("/info", statusCtrl.Info)
+	// Every other path and method is echoed back.
+	r.NoRoute(ctrl.Root)
 }

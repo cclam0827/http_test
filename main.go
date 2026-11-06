@@ -18,8 +18,7 @@ func main() {
 				Name:  "start",
 				Usage: "Start the http server",
 				Action: func(c *cli.Context) error {
-					start()
-					return nil
+					return start()
 				},
 			},
 		},
@@ -30,8 +29,8 @@ func main() {
 	}
 }
 
-func start() {
+func start() error {
 	cfg := config.GetConfig()
 	logger.Setup(cfg.App.LogFormat, cfg.App.LogLevel, cfg.App.Environment)
-	apis.NewServer().StartAPI()
+	return apis.NewServer().StartAPI()
 }

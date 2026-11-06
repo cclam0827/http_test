@@ -63,6 +63,7 @@ func Load(path string) error {
 	if err != nil {
 		return handleErr(err)
 	}
+	defer file.Close()
 	config = &Config{}
 	// update server info
 	hostname, err := os.Hostname()
