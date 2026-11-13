@@ -3,7 +3,7 @@
 # Build stage. It always runs on the build host's own architecture and
 # cross-compiles for the requested target, so multi-arch builds are fast and
 # need no QEMU. Keep the final stage free of RUN instructions for the same reason.
-FROM --platform=$BUILDPLATFORM golang:1.27.3-alpine3.24 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.27.4-alpine3.24 AS builder
 
 ARG TARGETOS
 ARG TARGETARCH
